@@ -6,4 +6,195 @@
 /* primary:  #623cea*/
 * {
   font-family: "Lexend", sans-serif;
+  color: #38476d;
+}
+h1,
+h2,
+h3,
+h4,
+a,
+p {
+  margin: 0;
+  padding: 0;
+}
+.home {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+  height: 100vh;
+}
+.home .header {
+  display: flex;
+  margin-top: 2em;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.home .header button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-weight: bold;
+  background-color: #623cea;
+  color: #f7f8fd;
+  width: 8em;
+  height: 3em;
+  font-size: 1em;
+  border-radius: 0.4em;
+  cursor: pointer;
+  /* transition: 0.1s linear; */
+}
+
+.home .header button:hover {
+  transform: translateY(-0.1em);
+}
+
+.home .header button:active {
+  transform: translateY(0.1em);
+}
+.home > p {
+  font-weight: bold;
+  color: #7783a4;
+  margin-top: 4em;
+}
+
+.posts .post {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 2em 0em;
+}
+
+.posts .post button {
+  background: none;
+  border: none;
+  color: #623cea;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.8em;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+.posts .post button:hover {
+  text-decoration: underline;
+}
+.posts .post .item {
+  margin: 1em 0em;
+}
+.posts .post .item h3 {
+  text-align: left;
+  /* color: #623cea; */
+  cursor: pointer;
+}
+
+.posts .post .item h3:hover {
+  text-decoration: underline;
+}
+
+.posts .post .item p {
+  line-height: 1.6;
+}
+
+.details {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.details .profile a {
+  color: #7f3cea;
+  text-decoration: none;
+  font-weight: bold;
+}
+.details .profile a:hover {
+  text-decoration: underline;
+}
+
+.details .profile p {
+  margin: 0.6em 0em;
+}
+
+.details > h1 {
+  margin-top: 2em;
+}
+.details .posts button {
+  font-size: 1.3em;
+}
+
+.details .posts .link {
+  color: #38476d;
+}
+.details .posts p {
+  line-height: 1.6;
+}
+
+.signup {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.signup > p {
+  font-weight: bold;
+  color: #7783a4;
+  margin-top: 1em;
+}
+.signup form {
+  width: 100%;
+}
+.signup form section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 80%;
+  margin: 4em 0em;
+  justify-content: center;
+}
+
+.signup form section label {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #7783a4;
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 0.4em;
+}
+
+.signup form section input[type="text"],
+input[type="email"],
+input[type="phone"],
+input[type="url"] {
+  background-color: #f8f7fd;
+  color: #445275;
+  font-weight: bold;
+  border: none;
+  font-size: 1em;
+  padding: 1em;
+  width: 100%;
+}
+
+.signup form button {
+  background: none;
+  border: none;
+  background-color: #623cea;
+  color: #f8f7fd;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2em;
+  width: 100%;
+  height: 3em;
+  margin: 4em auto;
+  border-radius: 0.4em;
+  text-align: center;
+}
+
+.signup form button:hover {
+  transform: translateY(-2px);
+}
+
+.signup form button:active {
+  transform: translateY(2px);
 }

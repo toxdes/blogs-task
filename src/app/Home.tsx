@@ -51,7 +51,14 @@ function Posts({ data, onNameClick }: PostsProps) {
               </button>
               {each.posts &&
                 each.posts.map((post: any) => {
-                  return <p key={post.id}>{post.title}</p>;
+                  return (
+                    <div className="item">
+                      <h3 onClick={() => alert("Not implemented yet.")}>
+                        {post.title}
+                      </h3>
+                      <p key={post.id}>{post.body}</p>
+                    </div>
+                  );
                 })}
             </div>
           );
@@ -75,6 +82,33 @@ export default function Home() {
     navigate(`/u/${userDetails.username}`, {
       state: { user: userDetails, posts: postsByUser },
     });
+  };
+  const onAddUser = (user: any) => {
+    let newUsers = [...data.data.users];
+    const u = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      address: {
+        street: user.street,
+        suite: user.suite,
+        city: user.city,
+        zipcode: user.zipcode,
+      },
+      phone: user.phone,
+      website: user.website,
+      company: {
+        name: user.companyname,
+        catchPhrase: user.catchphrase,
+        bs: user.bs,
+      },
+    };
+    newUsers.push(u);
+    setData({ ...data, data: { ...data.data, users: newUsers } });
+  };
+  const signup = () => {
+    navigate("/signup", { state: { onSuccess: onAddUser } });
   };
   useEffect(() => {
     const fetchPosts = async () => {
@@ -101,7 +135,10 @@ export default function Home() {
 
   return (
     <div className="home">
-      <h1>Welcome.</h1>
+      <div className="header">
+        <h1>Welcome.</h1>
+        <button onClick={signup}>Sign up</button>
+      </div>
       <p>You might like these posts.</p>
       <Posts data={data.data} onNameClick={onNameClick} />
     </div>

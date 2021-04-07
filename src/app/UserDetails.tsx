@@ -18,7 +18,7 @@ export default function UserDetails(props: any) {
     alert(`Navigate to post ${id}. Not implemented yet.`);
   };
   return (
-    <div className="user-details-root">
+    <div className="details">
       <div className="profile">
         <h1>{user.name}</h1>
         <a href={`/u/${user.username}`}>@{user.username}</a>
@@ -27,14 +27,6 @@ export default function UserDetails(props: any) {
           <a href={user.website}>
             <b>{user.company.name}</b>
           </a>
-          <ol>
-            <li>
-              <p>{user.company.catchPhrase}</p>
-            </li>
-            <li>
-              <p>{user.company.bs}</p>
-            </li>
-          </ol>
         </p>
 
         <p>
@@ -50,32 +42,43 @@ export default function UserDetails(props: any) {
             </b>
           </a>
         </p>
-        <div className="contact">
-          <p>Email</p>
-          <a href={`mailto://${user.email}`}>{user.email}</a>
-          <p>Phone</p>
-          <a href={`tel://${user.email}`}> {user.phone}</a>
-        </div>
+        <p>
+          Email{" "}
+          <span>
+            <a href={`mailto://${user.email}`}>{user.email}</a>
+          </span>
+        </p>
+
+        <p>
+          Phone{" "}
+          <span>
+            <a href={`tel://${user.email}`}> {user.phone}</a>
+          </span>
+        </p>
         {/* <p>{JSON.stringify(user)}</p>
         <p>{JSON.stringify(posts)}</p> */}
       </div>
-      <h3>Posts by {user.name}</h3>
-      <div className="posts">
-        {posts &&
-          posts.map((each: any) => {
-            return (
-              <div className="post" key={each.title}>
-                <button
-                  onClick={(e) => onNameClick(e, each.id)}
-                  className="link"
-                >
-                  {each.title}
-                </button>
-                <p>{each.body}</p>
-              </div>
-            );
-          })}
-      </div>
+      <h1>Posts by {user.name}</h1>
+      {posts ? (
+        <div className="posts">
+          {posts &&
+            posts.map((each: any) => {
+              return (
+                <div className="post" key={each.title}>
+                  <button
+                    onClick={(e) => onNameClick(e, each.id)}
+                    className="link"
+                  >
+                    {each.title}
+                  </button>
+                  <p>{each.body}</p>
+                </div>
+              );
+            })}
+        </div>
+      ) : (
+        <p>No posts yet.</p>
+      )}
     </div>
   );
 }
