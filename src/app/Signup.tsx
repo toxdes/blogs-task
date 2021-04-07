@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router";
+import React, { useContext, useState } from "react";
+import { GlobalStateContext } from ".";
 import api from "./api";
 
 const initialState = {
@@ -18,28 +18,65 @@ const initialState = {
 };
 export default function Signup() {
   const [fields, setFields] = useState(initialState);
+  const { globalState, setGlobalState }: any = useContext(GlobalStateContext);
   const handleChange = (e: any, id: string) => {
     const newFields = { ...fields };
     (newFields as any)[id] = e.target.value;
     setFields(newFields);
   };
-  const location: any = useLocation();
   const onFormSubmit = async (e: any) => {
-    let toSend: any = Object.keys(fields).map((each: string) => {
-      let o: any = {};
-      o[each.toLowerCase()] = (fields as any)[each];
-      return o;
+    let toSend: any = {};
+    Object.keys(fields).map((each: string) => {
+      toSend[each.toLowerCase()] = (fields as any)[each];
+      return each;
     });
+    console.log(toSend);
     try {
       let dd = await api.post("/users", {
         data: toSend,
       });
       toSend["id"] = [dd.data.id];
-      location.state.onSuccess(toSend);
+      onAddUser(toSend);
+      setFields(initialState);
       console.log(dd);
     } catch (e) {
       console.log(e);
     }
+  };
+  // add user after signup
+  const onAddUser = (user: any) => {
+    let newUsers = [...globalState.data.users];
+    // convert to proper data format
+    const u = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      address: {
+        street: user.street,
+        suite: user.suite,
+        city: user.city,
+        zipcode: user.zipcode,
+        geo: {
+          lat: "-31.8129", // fake
+          lng: "62.5342",
+        },
+      },
+      phone: user.phone,
+      website: user.website,
+      company: {
+        name: user.companyname,
+        catchPhrase: user.catchphrase,
+        bs: user.bs,
+      },
+    };
+    newUsers.push(u);
+    alert("User created successfully :)");
+    // setData({ ...data, data: { ...data.data, users: newUsers } });
+    setGlobalState({
+      ...globalState,
+      data: { ...globalState.data, users: newUsers },
+    });
   };
   const {
     Name,

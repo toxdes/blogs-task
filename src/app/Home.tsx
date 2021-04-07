@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "./api";
-
+import { GlobalStateContext } from ".";
 // sort alphabetically based on object property
 const alphabetically = (a: any, b: any, selector: any) => {
   if (selector(a) < selector(b)) return -1;
@@ -33,7 +33,7 @@ interface PostsProps {
   data?: any;
   onNameClick: (e: any, id: string) => void;
 }
-
+// list of posts component
 function Posts({ data, onNameClick }: PostsProps) {
   console.log(data);
   let digested = digest(data);
@@ -67,71 +67,59 @@ function Posts({ data, onNameClick }: PostsProps) {
   );
 }
 
-interface GenericDataType {
-  status: string;
-  data?: any;
-}
+// home component
+
 export default function Home() {
-  const [data, setData] = useState<GenericDataType>({ status: "idle" });
+  // data -> state with status, and actual fetched data
+  // const [data, setData] = useState<GenericDataType>({ status: "idle" });
   const navigate = useNavigate();
+  const { globalState, setGlobalState }: any = useContext(GlobalStateContext);
+  // navigate to user profile
   const onNameClick = (e: any, id: string) => {
-    let userDetails = data.data.users.filter((each: any) => each.id === id)[0];
-    let postsByUser = data.data.posts
+    let userDetails = globalState.data.users.filter(
+      (each: any) => each.id === id
+    )[0];
+    let postsByUser = globalState.data.posts
       .filter((each: any) => each.userId === id)
       .sort((a: any, b: any) => alphabetically(a, b, (a: any) => a.title));
     navigate(`/u/${userDetails.username}`, {
       state: { user: userDetails, posts: postsByUser },
     });
   };
-  const onAddUser = (user: any) => {
-    let newUsers = [...data.data.users];
-    const u = {
-      id: user.id,
-      name: user.name,
-      username: user.username,
-      email: user.email,
-      address: {
-        street: user.street,
-        suite: user.suite,
-        city: user.city,
-        zipcode: user.zipcode,
-      },
-      phone: user.phone,
-      website: user.website,
-      company: {
-        name: user.companyname,
-        catchPhrase: user.catchphrase,
-        bs: user.bs,
-      },
-    };
-    newUsers.push(u);
-    setData({ ...data, data: { ...data.data, users: newUsers } });
-  };
+
+  // navigate to signup
   const signup = () => {
-    navigate("/signup", { state: { onSuccess: onAddUser } });
+    navigate("/signup");
   };
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        setData((data) => {
-          return { ...data, status: "fetching" };
-        });
-        let posts = await api.get("/posts");
-        let users = await api.get("/users");
-        posts = posts.data;
-        users = users.data;
-        if (!posts) {
-          throw new Error("No posts.");
-        }
-        console.log(posts);
-        setData({ status: "success", data: { users, posts } });
-      } catch (e) {
-        console.error(e);
-        setData({ status: "error", data: e });
+
+  // fetch posts
+  const fetchUsers = React.useCallback(async () => {
+    try {
+      setGlobalState((state: any) => {
+        return { ...state, status: "fetching" };
+      });
+      let posts = await api.get("/posts");
+      let users = await api.get("/users");
+      posts = posts.data;
+      users = users.data;
+      if (!posts) {
+        throw new Error("No posts.");
       }
-    };
-    fetchPosts();
-  }, []);
+      console.log(posts);
+      setGlobalState({ status: "success", data: { users, posts } });
+    } catch (e) {
+      console.error(e);
+      setGlobalState({ status: "error", data: e });
+    }
+  }, [setGlobalState]);
+
+  // loading !
+  if (!globalState.data && globalState.status === "idle") {
+    fetchUsers();
+  }
+  if (globalState.status === "fetching") {
+    return <h3>Loading...</h3>;
+  }
 
   return (
     <div className="home">
@@ -140,7 +128,7 @@ export default function Home() {
         <button onClick={signup}>Sign up</button>
       </div>
       <p>You might like these posts.</p>
-      <Posts data={data.data} onNameClick={onNameClick} />
+      <Posts data={globalState.data} onNameClick={onNameClick} />
     </div>
   );
 }
