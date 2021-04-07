@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosConfig = {
-  baseURL: "http://jsonplaceholder.typicode.com",
+  baseURL: "https://jsonplaceholder.typicode.com",
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
