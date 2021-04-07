@@ -23,7 +23,7 @@ p {
   margin: auto;
   height: 100vh;
 }
-.home .header {
+.header {
   display: flex;
   margin-top: 2em;
   width: 100%;
@@ -32,7 +32,7 @@ p {
   justify-content: center;
 }
 
-.home .header button {
+.header button {
   margin-left: auto;
   background: none;
   border: none;
@@ -191,10 +191,14 @@ input[type="url"] {
   text-align: center;
 }
 
-.signup form button:hover {
+.signup button:hover {
   transform: translateY(-2px);
 }
 
-.signup form button:active {
+.signup button:active {
   transform: translateY(2px);
+}
+
+.signup .header button {
+  background-color: tomato;
 }

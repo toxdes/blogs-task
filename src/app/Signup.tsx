@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { GlobalStateContext } from ".";
+import { useNavigate } from "react-router-dom";
 import api from "./api";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
 };
 export default function Signup() {
   const [fields, setFields] = useState(initialState);
+  const navigate = useNavigate();
   const { globalState, setGlobalState }: any = useContext(GlobalStateContext);
   const handleChange = (e: any, id: string) => {
     const newFields = { ...fields };
@@ -92,9 +94,16 @@ export default function Signup() {
     CatchPhrase,
     Bs,
   } = fields;
+
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="signup">
-      <h1>Signup</h1>
+      <div className="header">
+        <h1>Signup.</h1>
+        <button onClick={goBack}>Cancel</button>
+      </div>
       <p>I am not doing any form validation for now.</p>
       <form onSubmit={onFormSubmit}>
         <section>
